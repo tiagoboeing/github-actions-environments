@@ -23,7 +23,7 @@ jobs:
 
   deploy_sandbox:
     needs: build_test
-    if: github.event_name == 'pull_request'
+    if: ${{ github.event_name == 'pull_request' }}
     environment:
       name: sandbox
       url: https://tiagoboeing.com
