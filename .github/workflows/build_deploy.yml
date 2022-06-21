@@ -30,7 +30,7 @@ jobs:
 
   deploy_dev:
     needs: build_test
-    if: ${{ github.ref_name == 'master' }}
+    if: github.ref_name == 'master'
     environment:
       name: dev
       url: https://tiagoboeing.com
@@ -40,7 +40,7 @@ jobs:
 
   deploy_sandbox:
     needs: build_test
-    if: ${{ github.event.pull_request.base.ref == 'master' }}
+    if: github.event.pull_request.base.ref == 'master'
     environment:
       name: sandbox
       url: https://tiagoboeing.com
@@ -50,7 +50,7 @@ jobs:
 
   deploy_hlg:
     needs: deploy_dev
-    if: ${{ github.ref_name == 'master' }}
+    if: github.ref_name == 'master'
     environment:
       name: hlg
       url: https://tiagoboeing.com
@@ -60,7 +60,7 @@ jobs:
 
   deploy_prod:
     needs: deploy_hlg
-    if: ${{ github.ref_name == 'master' }}
+    if: github.ref_name == 'master'
     environment:
       name: prod
       url: https://tiagoboeing.com
