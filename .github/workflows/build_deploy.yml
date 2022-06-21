@@ -2,6 +2,7 @@ name: Build and deploy
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize]
     branches:
       - "!master"
   push:
@@ -26,6 +27,7 @@ jobs:
       - run: |
           echo "Running deploy script..."
           echo "${{ toJSON(github) }}"
+          echo "${{ toJSON(github.event) }}"
 
   deploy_dev:
     needs: build_test
@@ -39,7 +41,7 @@ jobs:
 
   deploy_sandbox:
     needs: build_test
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event.pull_request.base.ref == 'master' }}
     environment:
       name: sandbox
       url: https://tiagoboeing.com
@@ -57,7 +59,7 @@ jobs:
     steps:
       - run: echo "Running deploy script..."
 
-  deploy_prd:
+  deploy_prod:
     needs: deploy_hlg
     if: ${{ github.ref_name == 'master' }}
     environment:
@@ -69,7 +71,7 @@ jobs:
 
   deploy_stg:
     needs: deploy_hlg
-    concurrency: deploy_prd
+    concurrency: deploy_prod
     environment:
       name: stg
       url: https://tiagoboeing.com
