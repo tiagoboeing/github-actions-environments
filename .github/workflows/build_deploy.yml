@@ -23,7 +23,27 @@ jobs:
 
   deploy_dev:
     needs: build_test
+    environment: dev
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
+      - run: echo "Running deploy script..."
+
+  deploy_hlg:
+    needs: deploy_dev
+    environment: hlg
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: echo "Running deploy script..."
+
+  deploy_prd:
+    needs: deploy_hlg
+    environment: prod
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: echo "Running deploy script..."
