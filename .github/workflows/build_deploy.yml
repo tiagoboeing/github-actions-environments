@@ -23,8 +23,13 @@ jobs:
       - name: Run tests
         run: "echo Run unit tests"
 
+      - run: |
+          echo "${{ github.ref_name }}"
+          echo "Running deploy script..."
+
   deploy_dev:
     needs: build_test
+    if: ${{ github.ref_name == 'master' }}
     environment:
       name: dev
       url: https://tiagoboeing.com
@@ -50,12 +55,11 @@ jobs:
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "${{ github.ref_name }}"
-          echo "Running deploy script..."
+      - run: echo "Running deploy script..."
 
   deploy_prd:
     needs: deploy_hlg
+    if: ${{ github.ref_name == 'master' }}
     environment:
       name: prod
       url: https://tiagoboeing.com
