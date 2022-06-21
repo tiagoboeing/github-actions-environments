@@ -44,7 +44,7 @@ jobs:
 
   deploy_hlg:
     needs: deploy_dev
-    if: ${{ github.event_name != 'pull_request' && github.ref_name === 'master' }}
+    if: ${{ github.event_name != 'pull_request' }} && ${{ github.ref_name === 'master' }}
     environment:
       name: hlg
       url: https://tiagoboeing.com
