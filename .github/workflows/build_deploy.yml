@@ -44,13 +44,15 @@ jobs:
 
   deploy_hlg:
     needs: deploy_dev
-    if: ${{ github.event_name != 'pull_request' }} && ${{ github.ref_name == 'master' }}
+    if: ${{ github.ref_name == 'master' }}
     environment:
       name: hlg
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Running deploy script..."
+      - run: |
+          echo "${{ github.ref_name }}"
+          echo "Running deploy script..."
 
   deploy_prd:
     needs: deploy_hlg
