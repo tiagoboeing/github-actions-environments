@@ -1,8 +1,10 @@
 name: Build and deploy
 
 on:
-  push:
   pull_request:
+    branches:
+      - "!master"
+  push:
   workflow_dispatch:
 
 defaults:
@@ -46,6 +48,7 @@ jobs:
 
   deploy_hlg:
     needs: deploy_dev
+    if: ${{ github.event_name != 'pull_request' }}
     environment:
       name: hlg
       url: https://tiagoboeing.com
