@@ -24,8 +24,8 @@ jobs:
         run: "echo Run unit tests"
 
       - run: |
-          echo "${{ github.ref_name }}"
           echo "Running deploy script..."
+          echo "${{ toJSON(github) }}"
 
   deploy_dev:
     needs: build_test
