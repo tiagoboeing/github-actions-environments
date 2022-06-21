@@ -1,8 +1,10 @@
 name: Build and deploy
 
 on:
-  push:
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  push:
+    branches: [master]
   workflow_dispatch:
 
 defaults:
@@ -21,59 +23,57 @@ jobs:
       - name: Run tests
         run: "echo Run unit tests"
 
-  deploy_sandbox:
-    needs: build_test
-    if: github.event_name == 'pull_request'
-    environment:
-      name: sandbox
-      url: https://tiagoboeing.com
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - run: echo "Running deploy script..."
+      - run: |
+          echo "Running deploy script..."
+          echo "${{ toJSON(github) }}"
+          echo "${{ toJSON(github.event) }}"
 
   deploy_dev:
     needs: build_test
+    if: github.ref_name == 'master'
     environment:
       name: dev
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - run: echo "Running deploy script..."
 
+  deploy_sandbox:
+    needs: build_test
+    if: github.event.pull_request.base.ref == 'master'
+    environment:
+      name: sandbox
+      url: https://tiagoboeing.com
+    runs-on: ubuntu-latest
+    steps:
       - run: echo "Running deploy script..."
 
   deploy_hlg:
     needs: deploy_dev
+    if: github.ref_name == 'master'
     environment:
       name: hlg
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - run: echo "Running deploy script..."
 
-  deploy_prd:
+  deploy_prod:
     needs: deploy_hlg
+    if: github.ref_name == 'master'
     environment:
       name: prod
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - run: echo "Running deploy script..."
 
   deploy_stg:
     needs: deploy_hlg
-    concurrency: deploy_prd
+    concurrency: deploy_prod
     environment:
       name: stg
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - run: echo "Running deploy script..."
