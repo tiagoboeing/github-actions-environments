@@ -23,7 +23,9 @@ jobs:
 
   deploy_dev:
     needs: build_test
-    environment: dev
+    environment:
+      name: dev
+      url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,7 +34,9 @@ jobs:
 
   deploy_hlg:
     needs: deploy_dev
-    environment: hlg
+    environment:
+      name: hlg
+      url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,7 +45,9 @@ jobs:
 
   deploy_prd:
     needs: deploy_hlg
-    environment: prod
+    environment:
+      name: prod
+      url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
