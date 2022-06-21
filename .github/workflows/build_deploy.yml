@@ -23,6 +23,15 @@ jobs:
       - name: Run tests
         run: "echo Run unit tests"
 
+  deploy_dev:
+    needs: build_test
+    environment:
+      name: dev
+      url: https://tiagoboeing.com
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running deploy script..."
+
   deploy_sandbox:
     needs: build_test
     if: ${{ github.event_name == 'pull_request' }}
@@ -31,31 +40,16 @@ jobs:
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - run: echo "Running deploy script..."
-
-  deploy_dev:
-    needs: build_test
-    environment:
-      name: dev
-      url: https://tiagoboeing.com
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
       - run: echo "Running deploy script..."
 
   deploy_hlg:
     needs: deploy_dev
-    if: ${{ github.event_name != 'pull_request' }}
+    if: ${{ github.event_name != 'pull_request' && github.ref_name === 'master' }}
     environment:
       name: hlg
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - run: echo "Running deploy script..."
 
   deploy_prd:
@@ -65,8 +59,6 @@ jobs:
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - run: echo "Running deploy script..."
 
   deploy_stg:
@@ -77,6 +69,4 @@ jobs:
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - run: echo "Running deploy script..."
