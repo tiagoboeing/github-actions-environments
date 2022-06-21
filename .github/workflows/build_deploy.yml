@@ -21,6 +21,18 @@ jobs:
       - name: Run tests
         run: "echo Run unit tests"
 
+  deploy_sandbox:
+    needs: build_test
+    if: github.event_name == 'pull_request'
+    environment:
+      name: sandbox
+      url: https://tiagoboeing.com
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: echo "Running deploy script..."
+
   deploy_dev:
     needs: build_test
     environment:
