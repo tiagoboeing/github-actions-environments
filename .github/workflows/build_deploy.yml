@@ -53,3 +53,15 @@ jobs:
       - uses: actions/checkout@v3
 
       - run: echo "Running deploy script..."
+
+  deploy_stg:
+    needs: deploy_hlg
+    concurrency: deploy_prd
+    environment:
+      name: stg
+      url: https://tiagoboeing.com
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: echo "Running deploy script..."
