@@ -58,21 +58,21 @@ jobs:
     steps:
       - run: echo "Running deploy script..."
 
-  deploy_prod:
+  deploy_stg:
     needs: deploy_hlg
-    if: github.ref_name == 'master'
+    concurrency: deploy_dev
     environment:
-      name: prod
+      name: stg
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
       - run: echo "Running deploy script..."
 
-  deploy_stg:
+  deploy_prod:
     needs: deploy_hlg
-    concurrency: deploy_prod
+    if: github.ref_name == 'master'
     environment:
-      name: stg
+      name: prod
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
