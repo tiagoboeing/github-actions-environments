@@ -36,11 +36,17 @@ jobs:
         run: echo "Build code"
 
       - name: Run tests
-        run: "echo Run unit tests"
+        run: echo "Run unit tests"
 
       - run: |
           echo "Running deploy script..."
           echo "${{ inputs.environment }}"
+
+  create_version:
+    if: inputs.create_version == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Version type = ${{ inputs.version_type }}"
 
   deploy:
     needs: build_test
