@@ -1,0 +1,51 @@
+name: Single Manual Environment Workflow
+
+on:
+  # pull_request:
+  #   types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: Environment to deploy
+        required: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build code
+        run: echo "Build code"
+
+      - name: Run tests
+        run: "echo Run unit tests"
+
+      - run: |
+          echo "Running deploy script..."
+          echo "${{ inputs.environment }}"
+
+  deploy:
+    needs: build_test
+    # if: github.ref_name == 'master'
+    environment:
+      name: dev
+      url: https://tiagoboeing.com
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running deploy script..."
+
+  deploy_sandbox:
+    needs: build_test
+    if: github.event.pull_request.base.ref == 'master'
+    environment:
+      name: sandbox
+      url: https://tiagoboeing.com
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running deploy script..."
