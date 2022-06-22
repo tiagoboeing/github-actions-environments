@@ -44,12 +44,13 @@ jobs:
 
   create_version:
     if: inputs.create_version == true
+    needs: build_test
     runs-on: ubuntu-latest
     steps:
       - run: echo "Version type = ${{ inputs.version_type }}"
 
   deploy:
-    needs: build_test
+    needs: create_version
     # if: github.ref_name == 'master'
     environment:
       name: dev
