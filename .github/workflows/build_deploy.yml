@@ -59,7 +59,7 @@ jobs:
       - run: echo "Running deploy script..."
 
   deploy_stg:
-    needs: deploy_hlg
+    needs: deploy_dev
     concurrency: deploy_dev
     environment:
       name: stg
