@@ -43,17 +43,18 @@ jobs:
           echo "${{ inputs.environment }}"
 
   create_version:
-    if: inputs.create_version == true
     needs: build_test
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Version type = ${{ inputs.version_type }}"
+      - run: |
+          echo "Create version = ${{ inputs.create_version }}"
+          echo "Version type = ${{ inputs.version_type }}"
 
   deploy:
     needs: create_version
     # if: github.ref_name == 'master'
     environment:
-      name: dev
+      name: ${{ inputs.environment }}
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
