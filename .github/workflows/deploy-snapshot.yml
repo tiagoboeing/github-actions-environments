@@ -84,12 +84,14 @@ jobs:
       - run: echo "Run release/tag/changelog script..."
 
   deploy_production:
+    if: always() && needs.deploy_homolog.result == 'success' || needs.deploy_staging.result == 'success'
     runs-on: ubuntu-latest
     needs: create_release
     steps:
       - run: echo "Running deploy script to production environment..."
 
   merge_branches:
+  if: always() && needs.deploy_homolog.result == 'success' || needs.deploy_staging.result == 'success'
     runs-on: ubuntu-latest
     needs: deploy_production
     steps:
