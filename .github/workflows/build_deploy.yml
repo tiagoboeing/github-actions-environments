@@ -32,7 +32,7 @@ jobs:
     needs: build_test
     if: github.ref_name == 'master'
     environment:
-      name: dev
+      name: development
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
