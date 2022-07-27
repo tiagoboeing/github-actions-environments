@@ -50,7 +50,7 @@ jobs:
       name: ${{ inputs.environment }}
       url: https://${{ inputs.environment }}.tiagoboeing.com
     steps:
-      - run: echo "Running deploy script to ${{ inputs.environment }} environment..."
+      - run: echo "Running deploy script to ${{ inputs.environment }} environment."
 
   deploy_staging:
     if: startsWith(github.ref, 'refs/heads/hotfix/')
