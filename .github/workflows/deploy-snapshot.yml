@@ -49,7 +49,7 @@ jobs:
 
   # Deploy and start test flow
   deploy_homolog:
-    if: inputs.environment == "development"
+    if: inputs.environment == development
     runs-on: ubuntu-latest
     needs: deploy_snapshot
     environment:
