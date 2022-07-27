@@ -52,7 +52,7 @@ jobs:
     needs: deploy_dev
     if: github.ref_name == 'master'
     environment:
-      name: hlg
+      name: homolog
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
@@ -62,7 +62,7 @@ jobs:
     needs: deploy_dev
     concurrency: deploy_dev
     environment:
-      name: stg
+      name: staging
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
@@ -72,7 +72,7 @@ jobs:
     needs: deploy_hlg
     if: github.ref_name == 'master'
     environment:
-      name: prod
+      name: production
       url: https://tiagoboeing.com
     runs-on: ubuntu-latest
     steps:
