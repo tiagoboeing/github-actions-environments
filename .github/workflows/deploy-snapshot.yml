@@ -75,7 +75,7 @@ jobs:
 
   create_release:
     runs-on: ubuntu-latest
-    needs: deploy_homolog
+    needs: [deploy_homolog, deploy_staging]
     environment:
       name: production
       url: https://tiagoboeing.com
