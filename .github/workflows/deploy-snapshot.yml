@@ -37,6 +37,8 @@ jobs:
           echo "Running deploy script..."
           echo "${{ toJSON(github) }}"
           echo "${{ toJSON(github.event) }}"
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref: ${{ github.ref }}"
 
   deploy_snapshot:
     if: "!startsWith(github.ref_name, 'hotfix/')"
