@@ -1,4 +1,4 @@
-name: 5 - Deploy
+name: 5-Deploy
 
 on:
   workflow_dispatch:
