@@ -1,17 +1,7 @@
-name: 5 - Deploy
+name: 6 - Release - Feature
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        default: "sandbox"
-        options:
-          - "sandbox"
-          - "development"
-          - "homolog"
-          - "staging"
-          - "production"
 
 defaults:
   run:
@@ -29,6 +19,17 @@ jobs:
   deploy_dev:
     name: Deploy Development
     if: inputs.environment == 'development'
+    runs-on: ubuntu-latest
+    needs: download_actions
+    environment:
+      name: development
+      url: https://tiagoboeing.com
+    steps:
+      - run: echo "Running deploy script..."
+
+  deploy_homolog:
+    name: Deploy Development
+    if: inputs.environment == 'homolog'
     runs-on: ubuntu-latest
     needs: download_actions
     environment:
