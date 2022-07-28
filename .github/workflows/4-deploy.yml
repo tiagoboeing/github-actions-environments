@@ -43,7 +43,7 @@ jobs:
 
   # only if not a hotfix branch
   deploy_homolog:
-    name: Check deploy to homolog
+    name: Deploy to homolog
     if: "!startsWith(github.ref, 'refs/heads/hotfix/') && inputs.environment == 'development'"
     needs: deploy
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
         run: echo "Checking deploy to homolog..."
 
   deploy_homolog_snapshot:
-    name: Check deploy to homolog
+    name: Deploy snapshot to homolog
     if: "inputs.environment == 'homolog'"
     needs: build_test
     runs-on: ubuntu-latest
