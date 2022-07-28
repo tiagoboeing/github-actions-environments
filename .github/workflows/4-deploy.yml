@@ -42,6 +42,7 @@ jobs:
 
   deploy_homolog:
     name: Check deploy to homolog
+    runs-on: ubuntu-latest
     needs: deploy
     environment:
       name: homolog
