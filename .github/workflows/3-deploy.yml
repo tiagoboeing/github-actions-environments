@@ -39,7 +39,6 @@ jobs:
           echo "${{ toJSON(github.event) }}"
 
   deploy:
-    if: "!startsWith(github.ref, 'refs/heads/hotfix/')"
     runs-on: ubuntu-latest
     needs: build_test
     environment:
