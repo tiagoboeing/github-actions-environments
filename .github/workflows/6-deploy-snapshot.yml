@@ -18,6 +18,7 @@ defaults:
 
 jobs:
   download_actions:
+    name: Configure Actions
     runs-on: ubuntu-latest
     steps:
       - run: |
