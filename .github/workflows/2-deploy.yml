@@ -40,13 +40,9 @@ jobs:
 
   # Call subworkflow
   call_subworkflow:
-    name: Call a subworkflow using workflow_call
-    runs-on: ubuntu-latest
-    needs: build_test
-    steps:
-      - uses: ./.github/workflows/2-deploy-workflow-call.yml
-        with:
-          environment: ${{ inputs.environment }}
+    uses: ./.github/workflows/2-deploy-workflow-call.yml
+      with:
+        environment: ${{ inputs.environment }}
 
   deploy:
     if: "!startsWith(github.ref, 'refs/heads/hotfix/')"
