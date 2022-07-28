@@ -41,8 +41,8 @@ jobs:
   # Call subworkflow
   call_subworkflow:
     uses: ./.github/workflows/2-deploy-workflow-call.yml
-      with:
-        environment: ${{ inputs.environment }}
+    with:
+      environment: ${{ inputs.environment }}
 
   deploy:
     if: "!startsWith(github.ref, 'refs/heads/hotfix/')"
