@@ -49,7 +49,7 @@ jobs:
     steps:
       # only if not a hotfix branch
       - name: Check deploy to homolog
-        if: "!startsWith(github.ref, 'refs/heads/hotfix/')" && inputs.environment == 'development' && needs.deploy.result == 'success'
+        if: "!startsWith(github.ref, 'refs/heads/hotfix/') && inputs.environment == 'development' && needs.deploy.result == 'success'"
         run: echo "Checking deploy to homolog..."
 
   create_release:
