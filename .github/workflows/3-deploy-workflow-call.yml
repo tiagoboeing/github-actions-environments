@@ -18,8 +18,6 @@ jobs:
       name: homolog
       url: https://tiagoboeing.com
     steps:
-      - run: "Start"
-
       - name: Deploy Homolog
         if: inputs.environment == 'development'
         run: echo "Running deploy script to ${{ inputs.environment }} environment..."
