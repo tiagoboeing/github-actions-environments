@@ -1,4 +1,4 @@
-name: Deploy to environment
+name: 2 - Deploy Workflow Call
 
 on:
   workflow_call:
