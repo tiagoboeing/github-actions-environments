@@ -1,0 +1,23 @@
+name: Deploy to environment
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  merge_branches:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Merge to master and develop."
+
+  sync_envs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Sync environments."
