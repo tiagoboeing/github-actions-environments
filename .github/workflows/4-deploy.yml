@@ -33,6 +33,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build_test
+    if: inputs.environment != 'homolog'
     environment:
       name: ${{ inputs.environment }}
       url: https://${{ inputs.environment }}.tiagoboeing.com
@@ -40,24 +41,33 @@ jobs:
       - name: Deploy
         run: echo "Running deploy script to ${{ inputs.environment }} environment..."
 
+  # only if not a hotfix branch
   deploy_homolog:
     name: Check deploy to homolog
-    runs-on: ubuntu-latest
+    if: "!startsWith(github.ref, 'refs/heads/hotfix/') && inputs.environment == 'development'"
     needs: deploy
+    runs-on: ubuntu-latest
     environment:
       name: homolog
       url: https://tiagoboeing.com
     steps:
-      # only if not a hotfix branch
       - name: Check deploy to homolog
-        if: "!startsWith(github.ref, 'refs/heads/hotfix/') && inputs.environment == 'development' && needs.deploy.result == 'success'"
+        run: echo "Checking deploy to homolog..."
+
+  deploy_homolog_snapshot:
+    name: Check deploy to homolog
+    if: "inputs.environment == 'homolog'"
+    needs: build_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check deploy to homolog
         run: echo "Checking deploy to homolog..."
 
   create_release:
     name: Requires review and create release to production
-    # if: always()
+    if: always() && needs.deploy.result != 'failure'
     runs-on: ubuntu-latest
-    needs: [deploy, deploy_homolog]
+    needs: [deploy, deploy_homolog, deploy_homolog_snapshot]
     environment:
       name: production
       url: https://tiagoboeing.com
