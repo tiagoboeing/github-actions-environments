@@ -56,7 +56,6 @@ jobs:
     steps:
       - run: echo "Running deploy script to ${{ inputs.environment }} environment..."
 
-  # (needs.deploy_homolog.result == 'success' || needs.deploy_homolog.result == 'skipped')
   create_release:
     if: |
       always() && 
