@@ -4,8 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       environment:
+        description: Ambiente de implantação
         type: choice
         default: "sandbox"
+        required: true
         options:
           - "sandbox"
           - "development"
