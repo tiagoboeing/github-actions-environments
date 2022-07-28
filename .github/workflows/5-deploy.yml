@@ -61,7 +61,7 @@ jobs:
 
   # (needs.deploy_homolog.result == 'success' || needs.deploy_homolog.result == 'skipped')
   create_release:
-    if: ${{ env.CONDITIONALS }}
+    if: ${{ env.CONDITIONALS == 'true' }}
     runs-on: ubuntu-latest
     needs: [deploy, deploy_homolog, deploy_staging]
     environment:
