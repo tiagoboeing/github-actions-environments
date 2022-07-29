@@ -35,21 +35,3 @@ jobs:
 
       - run: |
           echo "function_app_name = ${{ env.function_app_name }}"
-
-      - name: Infra Terraform
-        uses: ./.github/actions/terraform-azure-function-app
-        with:
-          token: ${{ secrets.ACTIONS_TOKEN }}
-          function_app_name: ${{ env.function_app_name }}
-          resource_group_name: "nestjs-github-action"
-          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Build project
-        uses: ./.github/actions/azure-function-build-nodejs
-
-      - name: Function Deploy
-        uses: ./.github/actions/azure-function-deploy
-        with:
-          function_app_name: ${{ env.function_app_name }}
-          install_az_cli: "true"
-          function_runtime: "javascript"
