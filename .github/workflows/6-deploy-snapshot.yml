@@ -12,7 +12,6 @@ on:
           - "sandbox"
           - "development"
           - "homolog"
-          - "staging"
 
 defaults:
   run:
@@ -23,10 +22,11 @@ jobs:
     name: Configure Actions
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Running deploy script..."
-          echo "${{ toJSON(github) }}"
-          echo "${{ toJSON(github.event) }}"
+      - name: Load .env file
+        uses: xom9ikk/dotenv@v1.0.2
+        with:
+          path: ../config
+          mode: ${{ inputs.environment }}
 
   deploy:
     name: Deploy to ${{ inputs.environment }}
@@ -36,4 +36,23 @@ jobs:
       name: ${{ inputs.environment }}
       url: https://${{ inputs.environment }}.tiagoboeing.com
     steps:
-      - run: echo "Running deploy script to ${{ inputs.environment }} environment..."
+      - run: |
+          echo "function_app_name = ${{ env.function_app_name }}"
+
+      - name: Infra Terraform
+        uses: ./.github/actions/terraform-azure-function-app
+        with:
+          token: ${{ secrets.ACTIONS_TOKEN }}
+          function_app_name: ${{ env.function_app_name }}
+          resource_group_name: "nestjs-github-action"
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build project
+        uses: ./.github/actions/azure-function-build-nodejs
+
+      - name: Function Deploy
+        uses: ./.github/actions/azure-function-deploy
+        with:
+          function_app_name: ${{ env.function_app_name }}
+          install_az_cli: "true"
+          function_runtime: "javascript"
