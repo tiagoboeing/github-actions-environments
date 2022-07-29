@@ -25,7 +25,7 @@ jobs:
       - name: Load .env file
         uses: xom9ikk/dotenv@v1.0.2
         with:
-          path: ../config
+          path: ${{ github.workspace }}/.github/config
           mode: ${{ inputs.environment }}
 
   deploy:
