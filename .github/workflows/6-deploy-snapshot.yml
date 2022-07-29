@@ -24,12 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Load .env file
-        uses: xom9ikk/dotenv@v1.0.2
-        with:
-          path: ${{ github.workspace }}/.github/config
-          mode: ${{ inputs.environment }}
-
   deploy:
     name: Deploy to ${{ inputs.environment }}
     runs-on: ubuntu-latest
@@ -38,6 +32,12 @@ jobs:
       name: ${{ inputs.environment }}
       url: https://${{ inputs.environment }}.tiagoboeing.com
     steps:
+      - name: Load .env file
+        uses: xom9ikk/dotenv@v1.0.2
+        with:
+          path: ${{ github.workspace }}/.github/config
+          mode: ${{ inputs.environment }}
+
       - run: |
           echo "function_app_name = ${{ env.function_app_name }}"
 
